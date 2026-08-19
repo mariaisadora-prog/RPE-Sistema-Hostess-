@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — RPE Flow</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #09090b; color: #fafafa; min-height: 100vh; }
+    a { text-decoration: none; }
+    nav a:hover { color: #fff !important; background: #27272a !important; }
+    th { text-align: left; }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside style="position:fixed;left:0;top:0;width:220px;height:100vh;background:#18181b;border-right:1px solid #27272a;display:flex;flex-direction:column;z-index:10;">
+    <div style="padding:1.5rem;border-bottom:1px solid #27272a;">
+      <span style="font-size:1.1rem;font-weight:700;color:#fff;">RPE <span style="color:#10b981;">Flow</span></span>
+    </div>
+    <nav style="flex:1;padding:1rem;display:flex;flex-direction:column;gap:4px;">
+      <a href="dashboard.html" style="color:#10b981;background:#052e16;border-radius:8px;padding:0.5rem 0.75rem;text-decoration:none;font-size:0.85rem;font-weight:600;display:block;">Dashboard</a>
+      <a href="approach-new.html" style="color:#a1a1aa;border-radius:8px;padding:0.5rem 0.75rem;text-decoration:none;font-size:0.85rem;display:block;">Nova Abordagem</a>
+      <a href="approaches.html" style="color:#a1a1aa;border-radius:8px;padding:0.5rem 0.75rem;text-decoration:none;font-size:0.85rem;display:block;">Histórico</a>
+      <a href="admin-campaigns.html" style="color:#a1a1aa;border-radius:8px;padding:0.5rem 0.75rem;text-decoration:none;font-size:0.85rem;display:block;">Campanhas</a>
+      <a href="admin-users.html" style="color:#a1a1aa;border-radius:8px;padding:0.5rem 0.75rem;text-decoration:none;font-size:0.85rem;display:block;">Usuários</a>
+      <a href="admin-units.html" style="color:#a1a1aa;border-radius:8px;padding:0.5rem 0.75rem;text-decoration:none;font-size:0.85rem;display:block;">Unidades</a>
+    </nav>
+    <div style="padding:1rem;border-top:1px solid #27272a;">
+      <p style="font-size:0.85rem;color:#fff;font-weight:600;margin-bottom:0.2rem;">Maria Silva</p>
+      <p style="font-size:0.75rem;color:#71717a;margin-bottom:0.75rem;">Administrador</p>
+      <a href="login.html" style="font-size:0.78rem;color:#71717a;text-decoration:none;">Sair →</a>
+    </div>
+  </aside>
+
+  <!-- Content -->
+  <main style="margin-left:220px;padding:2rem 2.5rem;background:#09090b;min-height:100vh;">
+
+    <!-- Header -->
+    <div style="margin-bottom:1.75rem;">
+      <h1 style="color:#fafafa;font-size:1.5rem;font-weight:700;">Dashboard</h1>
+      <p style="color:#71717a;font-size:0.85rem;margin-top:0.25rem;">Visão geral das abordagens</p>
+    </div>
+
+    <!-- Filter bar -->
+    <div style="display:flex;gap:8px;margin-bottom:1.75rem;flex-wrap:wrap;">
+      <button style="background:#10b981;color:white;border:none;border-radius:9999px;padding:0.4rem 1rem;font-size:0.82rem;font-weight:600;cursor:pointer;font-family:inherit;">Hoje</button>
+      <button style="background:transparent;border:1px solid #27272a;color:#a1a1aa;border-radius:9999px;padding:0.4rem 1rem;font-size:0.82rem;cursor:pointer;font-family:inherit;">Ontem</button>
+      <button style="background:transparent;border:1px solid #27272a;color:#a1a1aa;border-radius:9999px;padding:0.4rem 1rem;font-size:0.82rem;cursor:pointer;font-family:inherit;">7 dias</button>
+      <button style="background:transparent;border:1px solid #27272a;color:#a1a1aa;border-radius:9999px;padding:0.4rem 1rem;font-size:0.82rem;cursor:pointer;font-family:inherit;">Este mês</button>
+    </div>
+
+    <!-- Summary cards -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.75rem;">
+      <div style="background:#18181b;border:1px solid #27272a;border-radius:12px;padding:1.5rem;">
+        <p style="font-size:0.78rem;color:#71717a;margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.05em;">Abordagens</p>
+        <p style="font-size:2rem;font-weight:700;color:#fafafa;">147</p>
+        <p style="font-size:0.75rem;color:#10b981;margin-top:0.35rem;">↑ 12% vs ontem</p>
+      </div>
+      <div style="background:#18181b;border:1px solid #27272a;border-radius:12px;padding:1.5rem;">
+        <p style="font-size:0.78rem;color:#71717a;margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.05em;">Pessoas</p>
+        <p style="font-size:2rem;font-weight:700;color:#fafafa;">312</p>
+        <p style="font-size:0.75rem;color:#10b981;margin-top:0.35rem;">↑ 8% vs ontem</p>
+      </div>
+      <div style="background:#18181b;border:1px solid #27272a;border-radius:12px;padding:1.5rem;">
+        <p style="font-size:0.78rem;color:#71717a;margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.05em;">Taxa Grupos</p>
+        <p style="font-size:2rem;font-weight:700;color:#fafafa;">38,1%</p>
+        <p style="font-size:0.75rem;color:#71717a;margin-top:0.35rem;">56 de 147 grupos</p>
+      </div>
+      <div style="background:#18181b;border:1px solid #27272a;border-radius:12px;padding:1.5rem;">
+        <p style="font-size:0.78rem;color:#71717a;margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.05em;">Taxa Pessoas</p>
+        <p style="font-size:2rem;font-weight:700;color:#fafafa;">41,3%</p>
+        <p style="font-size:0.75rem;color:#71717a;margin-top:0.35rem;">129 de 312 pessoas</p>
+      </div>
+    </div>
+
+    <!-- Two column section -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.75rem;">
+
+      <!-- Hostess performance -->
+      <div style="background:#18181b;border:1px solid #27272a;border-radius:12px;padding:1.5rem;">
+        <h2 style="font-size:0.95rem;font-weight:600;color:#fafafa;margin-bottom:1.25rem;">Desempenho por Hostess</h2>
+        <table style="width:100%;border-collapse:collapse;">
+          <thead>
+            <tr>
+              <th style="background:#18181b;color:#71717a;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;padding:0.5rem 0.75rem;font-weight:600;">Hostess</th>
+              <th style="background:#18181b;color:#71717a;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;padding:0.5rem 0.75rem;font-weight:600;text-align:right;">Abord.</th>
+              <th style="background:#18181b;color:#71717a;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;padding:0.5rem 0.75rem;font-weight:600;text-align:right;">Pessoas</th>
+              <th style="background:#18181b;color:#71717a;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;padding:0.5rem 0.75rem;font-weight:600;text-align:right;">Taxa</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid #27272a;">
+              <td style="padding:0.65rem 0.75rem;color:#fafafa;font-size:0.88rem;">Ana Lima</td>
+              <td style="padding:0.65rem 0.75rem;color:#fafafa;font-size:0.88rem;text-align:right;">52</td>
+              <td style="padding:0.65rem 0.75rem;color:#fafafa;font-size:0.88rem;text-align:right;">108</td>
+              <td style="padding:0.65rem 0.75rem;font-size:0.88rem;text-align:right;color:#10b981;font-weight:600;">44,4%</td>
+            </tr>
+            <tr style="border-bottom:1px solid #27272a;">
+              <td style="padding:0.65rem 0.75rem;color:#fafafa;font-size:0.88rem;">Carla Souza</td>
+              <td style="padding:0.65rem 0.75rem;color:#fafafa;font-size:0.88rem;text-align:right;">41</td>
+              <td style="padding:0.65rem 0.75rem;color:#fafafa;font-size:0.88rem;text-align:right;">89</td>
+              <td style="padding:0.65rem 0.75rem;font-size:0.88rem;text-align:right;color:#10b981;font-weight:600;">38,2%</td>
+            </tr>
+            <tr style="border-bottom:1px solid #27272a;">
+              <td style="padding:0.65rem 0.75rem;color:#fafafa;font-size:0.88rem;">Paula Marta</td>
+              <td style="padding:0.65rem 0.75rem;color:#fafafa;font-size:0.88rem;text-align:right;">35</td>
+              <td style="padding:0.65rem 0.75rem;color:#fafafa;font-size:0.88rem;text-align:right;">72</td>
+              <td style="padding:0.65rem 0.75rem;font-size:0.88rem;text-align:right;color:#a1a1aa;font-weight:600;">36,1%</td>
+            </tr>
+            <tr>
+              <td style="padding:0.65rem 0.75rem;color:#fafafa;font-size:0.88rem;">Juliana Costa</td>
+              <td style="padding:0.65rem 0.75rem;color:#fafafa;font-size:0.88rem;text-align:right;">19</td>
+              <td style="padding:0.65rem 0.75rem;color:#fafafa;font-size:0.88rem;text-align:right;">43</td>
+              <td style="padding:0.65rem 0.75rem;font-size:0.88rem;text-align:right;color:#a1a1aa;font-weight:600;">30,2%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Refusal reasons -->
+      <div style="background:#18181b;border:1px solid #27272a;border-radius:12px;padding:1.5rem;">
+        <h2 style="font-size:0.95rem;font-weight:600;color:#fafafa;margin-bottom:1.25rem;">Motivos de Recusa</h2>
+        <table style="width:100%;border-collapse:collapse;">
+          <thead>
+            <tr>
+              <th style="background:#18181b;color:#71717a;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;padding:0.5rem 0.75rem;font-weight:600;">Motivo</th>
+              <th style="background:#18181b;color:#71717a;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;padding:0.5rem 0.75rem;font-weight:600;text-align:right;">Grupos</th>
+              <th style="background:#18181b;color:#71717a;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;padding:0.5rem 0.75rem;font-weight:600;text-align:right;">%</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid #27272a;">
+              <td style="padding:0.65rem 0.75rem;color:#fafafa;font-size:0.88rem;">Preço alto</td>
+              <td style="padding:0.65rem 0.75rem;color:#fafafa;font-size:0.88rem;text-align:right;">38</td>
+              <td style="padding:0.65rem 0.75rem;color:#a1a1aa;font-size:0.88rem;text-align:right;">41,3%</td>
+            </tr>
+            <tr style="border-bottom:1px solid #27272a;">
+              <td style="padding:0.65rem 0.75rem;color:#fafafa;font-size:0.88rem;">Sem interesse</td>
+              <td style="padding:0.65rem 0.75rem;color:#fafafa;font-size:0.88rem;text-align:right;">29</td>
+              <td style="padding:0.65rem 0.75rem;color:#a1a1aa;font-size:0.88rem;text-align:right;">31,5%</td>
+            </tr>
+            <tr style="border-bottom:1px solid #27272a;">
+              <td style="padding:0.65rem 0.75rem;color:#fafafa;font-size:0.88rem;">Já conhece</td>
+              <td style="padding:0.65rem 0.75rem;color:#fafafa;font-size:0.88rem;text-align:right;">14</td>
+              <td style="padding:0.65rem 0.75rem;color:#a1a1aa;font-size:0.88rem;text-align:right;">15,2%</td>
+            </tr>
+            <tr>
+              <td style="padding:0.65rem 0.75rem;color:#fafafa;font-size:0.88rem;">Pressa</td>
+              <td style="padding:0.65rem 0.75rem;color:#fafafa;font-size:0.88rem;text-align:right;">11</td>
+              <td style="padding:0.65rem 0.75rem;color:#a1a1aa;font-size:0.88rem;text-align:right;">12,0%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Bar chart -->
+    <div style="background:#18181b;border:1px solid #27272a;border-radius:12px;padding:1.5rem;">
+      <h2 style="font-size:0.95rem;font-weight:600;color:#fafafa;margin-bottom:1.5rem;">Abordagens por Hora</h2>
+      <div style="display:flex;align-items:flex-end;gap:8px;height:150px;padding-bottom:0;">
+        <!-- Hour data: 10h=8, 11h=12, 12h=19, 13h=24, 14h=31, 15h=22, 16h=14, 17h=10, 18h=7 -->
+        <!-- Max=31, scale to 130px height -->
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+          <span style="font-size:0.7rem;color:#71717a;margin-bottom:4px;">8</span>
+          <div style="background:#10b981;width:100%;border-radius:4px 4px 0 0;height:33px;"></div>
+          <span style="font-size:0.7rem;color:#71717a;margin-top:6px;">10h</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+          <span style="font-size:0.7rem;color:#71717a;margin-bottom:4px;">12</span>
+          <div style="background:#10b981;width:100%;border-radius:4px 4px 0 0;height:50px;"></div>
+          <span style="font-size:0.7rem;color:#71717a;margin-top:6px;">11h</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+          <span style="font-size:0.7rem;color:#71717a;margin-bottom:4px;">19</span>
+          <div style="background:#10b981;width:100%;border-radius:4px 4px 0 0;height:80px;"></div>
+          <span style="font-size:0.7rem;color:#71717a;margin-top:6px;">12h</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+          <span style="font-size:0.7rem;color:#71717a;margin-bottom:4px;">24</span>
+          <div style="background:#10b981;width:100%;border-radius:4px 4px 0 0;height:100px;"></div>
+          <span style="font-size:0.7rem;color:#71717a;margin-top:6px;">13h</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+          <span style="font-size:0.7rem;color:#a1a1aa;margin-bottom:4px;font-weight:600;">31</span>
+          <div style="background:#10b981;width:100%;border-radius:4px 4px 0 0;height:130px;"></div>
+          <span style="font-size:0.7rem;color:#a1a1aa;margin-top:6px;font-weight:600;">14h</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+          <span style="font-size:0.7rem;color:#71717a;margin-bottom:4px;">22</span>
+          <div style="background:#10b981;width:100%;border-radius:4px 4px 0 0;height:92px;"></div>
+          <span style="font-size:0.7rem;color:#71717a;margin-top:6px;">15h</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+          <span style="font-size:0.7rem;color:#71717a;margin-bottom:4px;">14</span>
+          <div style="background:#10b981;width:100%;border-radius:4px 4px 0 0;height:59px;"></div>
+          <span style="font-size:0.7rem;color:#71717a;margin-top:6px;">16h</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+          <span style="font-size:0.7rem;color:#71717a;margin-bottom:4px;">10</span>
+          <div style="background:#10b981;width:100%;border-radius:4px 4px 0 0;height:42px;"></div>
+          <span style="font-size:0.7rem;color:#71717a;margin-top:6px;">17h</span>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+          <span style="font-size:0.7rem;color:#71717a;margin-bottom:4px;">7</span>
+          <div style="background:#10b981;width:100%;border-radius:4px 4px 0 0;height:29px;"></div>
+          <span style="font-size:0.7rem;color:#71717a;margin-top:6px;">18h</span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</body>
+</html>

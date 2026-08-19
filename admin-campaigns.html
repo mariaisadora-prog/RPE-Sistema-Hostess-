@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Campanhas — RPE Flow</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #09090b; color: #fafafa; min-height: 100vh; }
+    a { text-decoration: none; }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside style="position:fixed;left:0;top:0;width:220px;height:100vh;background:#18181b;border-right:1px solid #27272a;display:flex;flex-direction:column;z-index:10;">
+    <div style="padding:1.5rem;border-bottom:1px solid #27272a;">
+      <span style="font-size:1.1rem;font-weight:700;color:#fff;">RPE <span style="color:#10b981;">Flow</span></span>
+    </div>
+    <nav style="flex:1;padding:1rem;display:flex;flex-direction:column;gap:4px;">
+      <a href="dashboard.html" style="color:#a1a1aa;border-radius:8px;padding:0.5rem 0.75rem;text-decoration:none;font-size:0.85rem;display:block;">Dashboard</a>
+      <a href="approach-new.html" style="color:#a1a1aa;border-radius:8px;padding:0.5rem 0.75rem;text-decoration:none;font-size:0.85rem;display:block;">Nova Abordagem</a>
+      <a href="approaches.html" style="color:#a1a1aa;border-radius:8px;padding:0.5rem 0.75rem;text-decoration:none;font-size:0.85rem;display:block;">Histórico</a>
+      <a href="admin-campaigns.html" style="color:#10b981;background:#052e16;border-radius:8px;padding:0.5rem 0.75rem;text-decoration:none;font-size:0.85rem;font-weight:600;display:block;">Campanhas</a>
+      <a href="admin-users.html" style="color:#a1a1aa;border-radius:8px;padding:0.5rem 0.75rem;text-decoration:none;font-size:0.85rem;display:block;">Usuários</a>
+      <a href="admin-units.html" style="color:#a1a1aa;border-radius:8px;padding:0.5rem 0.75rem;text-decoration:none;font-size:0.85rem;display:block;">Unidades</a>
+    </nav>
+    <div style="padding:1rem;border-top:1px solid #27272a;">
+      <p style="font-size:0.85rem;color:#fff;font-weight:600;margin-bottom:0.2rem;">Maria Silva</p>
+      <p style="font-size:0.75rem;color:#71717a;margin-bottom:0.75rem;">Administrador</p>
+      <a href="login.html" style="font-size:0.78rem;color:#71717a;text-decoration:none;">Sair →</a>
+    </div>
+  </aside>
+
+  <!-- Content -->
+  <main style="margin-left:220px;padding:2rem 2.5rem;background:#09090b;min-height:100vh;">
+
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.75rem;">
+      <div>
+        <h1 style="color:#fafafa;font-size:1.5rem;font-weight:700;">Campanhas</h1>
+        <p style="color:#71717a;font-size:0.85rem;margin-top:0.25rem;">Gerencie as campanhas do sistema</p>
+      </div>
+      <a href="admin-campaigns-new.html" style="background:#10b981;color:white;border-radius:8px;padding:0.65rem 1.25rem;font-weight:600;font-size:0.88rem;display:inline-block;">+ Nova Campanha</a>
+    </div>
+
+    <!-- Table -->
+    <div style="background:#18181b;border:1px solid #27272a;border-radius:12px;overflow:hidden;">
+      <table style="width:100%;border-collapse:collapse;">
+        <thead>
+          <tr>
+            <th style="background:#18181b;color:#71717a;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;padding:0.75rem 1rem;font-weight:600;text-align:left;border-bottom:1px solid #27272a;">Nome</th>
+            <th style="background:#18181b;color:#71717a;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;padding:0.75rem 1rem;font-weight:600;text-align:left;border-bottom:1px solid #27272a;">Período</th>
+            <th style="background:#18181b;color:#71717a;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;padding:0.75rem 1rem;font-weight:600;text-align:center;border-bottom:1px solid #27272a;">Unidades</th>
+            <th style="background:#18181b;color:#71717a;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;padding:0.75rem 1rem;font-weight:600;text-align:center;border-bottom:1px solid #27272a;">Status</th>
+            <th style="background:#18181b;color:#71717a;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;padding:0.75rem 1rem;font-weight:600;text-align:left;border-bottom:1px solid #27272a;">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #27272a;">
+            <td style="padding:0.8rem 1rem;color:#fafafa;font-size:0.9rem;font-weight:500;">Verão 2026</td>
+            <td style="padding:0.8rem 1rem;color:#a1a1aa;font-size:0.85rem;">01/01/2026 – 28/02/2026</td>
+            <td style="padding:0.8rem 1rem;color:#fafafa;font-size:0.85rem;text-align:center;">3</td>
+            <td style="padding:0.8rem 1rem;text-align:center;"><span style="background:#052e16;color:#10b981;border-radius:9999px;padding:2px 10px;font-size:0.72rem;font-weight:600;">Ativa</span></td>
+            <td style="padding:0.8rem 1rem;">
+              <a href="admin-campaigns-edit.html" style="color:#a1a1aa;font-size:0.82rem;margin-right:0.75rem;">Editar</a>
+              <a href="admin-campaigns-items.html" style="color:#10b981;font-size:0.82rem;">Itens</a>
+            </td>
+          </tr>
+          <tr style="border-bottom:1px solid #27272a;">
+            <td style="padding:0.8rem 1rem;color:#fafafa;font-size:0.9rem;font-weight:500;">Black Friday 2025</td>
+            <td style="padding:0.8rem 1rem;color:#a1a1aa;font-size:0.85rem;">20/11/2025 – 30/11/2025</td>
+            <td style="padding:0.8rem 1rem;color:#fafafa;font-size:0.85rem;text-align:center;">5</td>
+            <td style="padding:0.8rem 1rem;text-align:center;"><span style="background:#27272a;color:#71717a;border-radius:9999px;padding:2px 10px;font-size:0.72rem;font-weight:600;">Inativa</span></td>
+            <td style="padding:0.8rem 1rem;">
+              <a href="admin-campaigns-edit.html" style="color:#a1a1aa;font-size:0.82rem;margin-right:0.75rem;">Editar</a>
+              <a href="admin-campaigns-items.html" style="color:#10b981;font-size:0.82rem;">Itens</a>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:0.8rem 1rem;color:#fafafa;font-size:0.9rem;font-weight:500;">Natal 2025</td>
+            <td style="padding:0.8rem 1rem;color:#a1a1aa;font-size:0.85rem;">01/12/2025 – 26/12/2025</td>
+            <td style="padding:0.8rem 1rem;color:#fafafa;font-size:0.85rem;text-align:center;">4</td>
+            <td style="padding:0.8rem 1rem;text-align:center;"><span style="background:#27272a;color:#71717a;border-radius:9999px;padding:2px 10px;font-size:0.72rem;font-weight:600;">Inativa</span></td>
+            <td style="padding:0.8rem 1rem;">
+              <a href="admin-campaigns-edit.html" style="color:#a1a1aa;font-size:0.82rem;margin-right:0.75rem;">Editar</a>
+              <a href="admin-campaigns-items.html" style="color:#10b981;font-size:0.82rem;">Itens</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+</body>
+</html>

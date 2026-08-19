@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login — RPE Flow</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #09090b;
+      color: #fafafa;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    input:focus { outline: none; border-color: #10b981 !important; }
+    button:hover { opacity: 0.9; }
+  </style>
+</head>
+<body>
+  <div style="width:100%;max-width:380px;padding:1rem;">
+    <div style="background:#18181b;border:1px solid #27272a;border-radius:16px;padding:2.5rem;">
+      <div style="text-align:center;margin-bottom:2rem;">
+        <div style="font-size:1.4rem;font-weight:700;color:#fff;margin-bottom:0.5rem;">
+          RPE <span style="color:#10b981;">Flow</span>
+        </div>
+        <p style="font-size:0.85rem;color:#71717a;">Inteligência de fluxo e conversão</p>
+      </div>
+
+      <div style="margin-bottom:1.25rem;">
+        <label style="color:#a1a1aa;font-size:0.82rem;display:block;margin-bottom:0.4rem;">E-mail</label>
+        <input
+          type="email"
+          placeholder="seu@gruporpe.com.br"
+          style="background:#09090b;border:1px solid #27272a;color:#fafafa;border-radius:8px;padding:0.6rem 0.9rem;width:100%;font-size:0.9rem;font-family:inherit;"
+        />
+      </div>
+
+      <div style="margin-bottom:1.75rem;">
+        <label style="color:#a1a1aa;font-size:0.82rem;display:block;margin-bottom:0.4rem;">Senha</label>
+        <input
+          type="password"
+          placeholder="••••••••"
+          style="background:#09090b;border:1px solid #27272a;color:#fafafa;border-radius:8px;padding:0.6rem 0.9rem;width:100%;font-size:0.9rem;font-family:inherit;"
+        />
+      </div>
+
+      <div id="error-message" style="display:none; color:#ef4444; font-size:0.85rem; margin-bottom:1rem; text-align:center;"></div>
+      
+      <button id="btn-login" style="width:100%;background:#10b981;color:white;border:none;border-radius:8px;padding:0.75rem 1.25rem;font-weight:600;font-size:0.95rem;cursor:pointer;font-family:inherit;">
+        Entrar
+      </button>
+
+      <!-- Importa o Supabase via CDN -->
+      <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+      <!-- Importa nossa configuração -->
+      <script src="supabase.js"></script>
+
+      <script>
+        document.getElementById('btn-login').addEventListener('click', async () => {
+          const email = document.querySelector('input[type="email"]').value;
+          const password = document.querySelector('input[type="password"]').value;
+          const errorMsg = document.getElementById('error-message');
+          const btnLogin = document.getElementById('btn-login');
+
+          if (!email || !password) {
+            errorMsg.innerText = "Por favor, preencha e-mail e senha.";
+            errorMsg.style.display = "block";
+            return;
+          }
+
+          btnLogin.innerText = "Entrando...";
+          btnLogin.style.opacity = "0.7";
+          errorMsg.style.display = "none";
+
+          // Autenticação usando Supabase
+          const { data, error } = await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password,
+          });
+
+          if (error) {
+            errorMsg.innerText = "Erro ao fazer login: " + error.message;
+            errorMsg.style.display = "block";
+            btnLogin.innerText = "Entrar";
+            btnLogin.style.opacity = "1";
+          } else {
+            // Sucesso! Redireciona para o dashboard
+            window.location.href = "dashboard.html";
+          }
+        });
+      </script>
+
+      <p style="text-align:center;margin-top:1.25rem;font-size:0.78rem;color:#52525b;">
+        Sistema exclusivo para equipes Grupo RPE
+      </p>
+    </div>
+  </div>
+</body>
+</html>

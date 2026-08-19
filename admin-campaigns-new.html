@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nova Campanha — RPE Flow</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #09090b; color: #fafafa; min-height: 100vh; }
+    a { text-decoration: none; }
+    input[type="text"], input[type="date"], textarea { background: #18181b; border: 1px solid #27272a; color: #fafafa; border-radius: 8px; padding: 0.6rem 0.9rem; width: 100%; font-size: 0.9rem; font-family: inherit; color-scheme: dark; }
+    input:focus, textarea:focus { outline: none; border-color: #10b981; }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside style="position:fixed;left:0;top:0;width:220px;height:100vh;background:#18181b;border-right:1px solid #27272a;display:flex;flex-direction:column;z-index:10;">
+    <div style="padding:1.5rem;border-bottom:1px solid #27272a;">
+      <span style="font-size:1.1rem;font-weight:700;color:#fff;">RPE <span style="color:#10b981;">Flow</span></span>
+    </div>
+    <nav style="flex:1;padding:1rem;display:flex;flex-direction:column;gap:4px;">
+      <a href="dashboard.html" style="color:#a1a1aa;border-radius:8px;padding:0.5rem 0.75rem;text-decoration:none;font-size:0.85rem;display:block;">Dashboard</a>
+      <a href="approach-new.html" style="color:#a1a1aa;border-radius:8px;padding:0.5rem 0.75rem;text-decoration:none;font-size:0.85rem;display:block;">Nova Abordagem</a>
+      <a href="approaches.html" style="color:#a1a1aa;border-radius:8px;padding:0.5rem 0.75rem;text-decoration:none;font-size:0.85rem;display:block;">Histórico</a>
+      <a href="admin-campaigns.html" style="color:#10b981;background:#052e16;border-radius:8px;padding:0.5rem 0.75rem;text-decoration:none;font-size:0.85rem;font-weight:600;display:block;">Campanhas</a>
+      <a href="admin-users.html" style="color:#a1a1aa;border-radius:8px;padding:0.5rem 0.75rem;text-decoration:none;font-size:0.85rem;display:block;">Usuários</a>
+      <a href="admin-units.html" style="color:#a1a1aa;border-radius:8px;padding:0.5rem 0.75rem;text-decoration:none;font-size:0.85rem;display:block;">Unidades</a>
+    </nav>
+    <div style="padding:1rem;border-top:1px solid #27272a;">
+      <p style="font-size:0.85rem;color:#fff;font-weight:600;margin-bottom:0.2rem;">Maria Silva</p>
+      <p style="font-size:0.75rem;color:#71717a;margin-bottom:0.75rem;">Administrador</p>
+      <a href="login.html" style="font-size:0.78rem;color:#71717a;text-decoration:none;">Sair →</a>
+    </div>
+  </aside>
+
+  <!-- Content -->
+  <main style="margin-left:220px;padding:2rem 2.5rem;background:#09090b;min-height:100vh;">
+
+    <div style="margin-bottom:1.75rem;">
+      <a href="admin-campaigns.html" style="color:#71717a;font-size:0.85rem;">← Campanhas</a>
+      <h1 style="color:#fafafa;font-size:1.5rem;font-weight:700;margin-top:0.5rem;">Nova Campanha</h1>
+    </div>
+
+    <div style="max-width:560px;">
+      <div style="background:#18181b;border:1px solid #27272a;border-radius:12px;padding:1.5rem;">
+        <form onsubmit="return false;">
+
+          <div style="margin-bottom:1.25rem;">
+            <label style="color:#a1a1aa;font-size:0.82rem;display:block;margin-bottom:0.4rem;">Nome da campanha</label>
+            <input type="text" placeholder="Ex: Verão 2027" />
+          </div>
+
+          <div style="margin-bottom:1.25rem;">
+            <label style="color:#a1a1aa;font-size:0.82rem;display:block;margin-bottom:0.4rem;">Descrição</label>
+            <textarea rows="3" placeholder="Descrição opcional da campanha..."></textarea>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem;">
+            <div>
+              <label style="color:#a1a1aa;font-size:0.82rem;display:block;margin-bottom:0.4rem;">Data de início</label>
+              <input type="date" />
+            </div>
+            <div>
+              <label style="color:#a1a1aa;font-size:0.82rem;display:block;margin-bottom:0.4rem;">Data de fim</label>
+              <input type="date" />
+            </div>
+          </div>
+
+          <div style="margin-bottom:1.75rem;">
+            <label style="color:#a1a1aa;font-size:0.82rem;display:block;margin-bottom:0.75rem;">Unidades</label>
+            <div style="display:flex;flex-direction:column;gap:0.6rem;">
+              <label style="display:flex;align-items:center;gap:0.6rem;cursor:pointer;">
+                <input type="checkbox" style="width:auto;accent-color:#10b981;" />
+                <span style="color:#fafafa;font-size:0.88rem;">Unidade Centro</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:0.6rem;cursor:pointer;">
+                <input type="checkbox" style="width:auto;accent-color:#10b981;" />
+                <span style="color:#fafafa;font-size:0.88rem;">Unidade Norte</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:0.6rem;cursor:pointer;">
+                <input type="checkbox" style="width:auto;accent-color:#10b981;" />
+                <span style="color:#fafafa;font-size:0.88rem;">Unidade Sul</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:0.6rem;cursor:pointer;">
+                <input type="checkbox" style="width:auto;accent-color:#10b981;" />
+                <span style="color:#fafafa;font-size:0.88rem;">Unidade Leste</span>
+              </label>
+              <label style="display:flex;align-items:center;gap:0.6rem;cursor:pointer;">
+                <input type="checkbox" style="width:auto;accent-color:#10b981;" />
+                <span style="color:#fafafa;font-size:0.88rem;">Unidade Oeste</span>
+              </label>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:0.75rem;">
+            <button type="submit" style="flex:1;background:#10b981;color:white;border:none;border-radius:8px;padding:0.7rem 1.25rem;font-weight:600;font-size:0.9rem;cursor:pointer;font-family:inherit;">Criar Campanha</button>
+            <a href="admin-campaigns.html" style="flex:1;">
+              <button type="button" style="width:100%;background:transparent;border:1px solid #27272a;color:#a1a1aa;border-radius:8px;padding:0.7rem 1.25rem;font-size:0.9rem;cursor:pointer;font-family:inherit;">Cancelar</button>
+            </a>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RPE Flow — Sistema Hostess</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #09090b;
+      color: #fafafa;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 2rem 3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border-bottom: 1px solid #27272a;
+    }
+
+    .logo {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+
+    .logo span {
+      color: #10b981;
+    }
+
+    .badge {
+      font-size: 0.65rem;
+      font-weight: 600;
+      background: #10b981;
+      color: #fff;
+      padding: 0.2rem 0.55rem;
+      border-radius: 9999px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      margin-bottom: 1.25rem;
+    }
+
+    h1 em {
+      font-style: normal;
+      color: #10b981;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: #a1a1aa;
+      max-width: 540px;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
+
+    .cta {
+      display: inline-block;
+      background: #10b981;
+      color: #fff;
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 0.85rem 2rem;
+      border-radius: 0.75rem;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+
+    .cta:hover { background: #059669; }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+      max-width: 900px;
+      width: 100%;
+      margin-top: 4rem;
+      text-align: left;
+    }
+
+    .feature {
+      background: #18181b;
+      border: 1px solid #27272a;
+      border-radius: 1rem;
+      padding: 1.5rem;
+    }
+
+    .feature-icon {
+      font-size: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .feature h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #fafafa;
+      margin-bottom: 0.4rem;
+    }
+
+    .feature p {
+      font-size: 0.82rem;
+      color: #71717a;
+      line-height: 1.6;
+    }
+
+    .roles {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 4rem;
+    }
+
+    .role {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #18181b;
+      border: 1px solid #27272a;
+      border-radius: 9999px;
+      padding: 0.45rem 1rem;
+      font-size: 0.82rem;
+      color: #a1a1aa;
+    }
+
+    .role-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.78rem;
+      color: #52525b;
+      border-top: 1px solid #27272a;
+    }
+
+    footer strong { color: #a1a1aa; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <span class="logo">RPE <span>Flow</span></span>
+    <span class="badge">v1.0</span>
+  </header>
+
+  <main>
+    <h1>Inteligência de <em>fluxo</em><br>e conversão</h1>
+    <p class="subtitle">
+      Plataforma de gestão de abordagens para hostess. Registre, acompanhe e analise
+      o desempenho da equipe em tempo real.
+    </p>
+    <a href="login.html" class="cta">Acessar sistema →</a>
+
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">📊</div>
+        <h3>Dashboard em tempo real</h3>
+        <p>Taxas de conversão por grupo e pessoa, desempenho por hora, motivos de recusa e concorrentes.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">✍️</div>
+        <h3>Registro rápido de abordagens</h3>
+        <p>Interface otimizada para hostess registrarem abordagens em segundos, direto do celular.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🎯</div>
+        <h3>Gestão de campanhas</h3>
+        <p>Configure perfis de público, interesses, motivos e concorrentes para cada campanha.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">👥</div>
+        <h3>Múltiplos perfis de acesso</h3>
+        <p>Controle por perfil: Administrador, Gestor e Hostess, cada um com visibilidade adequada.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🏢</div>
+        <h3>Multi-unidade</h3>
+        <p>Gerencie equipes e campanhas em diferentes unidades, com filtros e relatórios isolados.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📤</div>
+        <h3>Exportação CSV</h3>
+        <p>Exporte os dados das abordagens com BOM UTF-8 para compatibilidade total com Excel.</p>
+      </div>
+    </div>
+
+    <div class="roles">
+      <div class="role">
+        <span class="role-dot" style="background:#a855f7"></span>
+        Administrador — acesso total
+      </div>
+      <div class="role">
+        <span class="role-dot" style="background:#3b82f6"></span>
+        Gestor — dashboard e campanhas
+      </div>
+      <div class="role">
+        <span class="role-dot" style="background:#10b981"></span>
+        Hostess — registro de abordagens
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <strong>RPE Flow</strong> &mdash; Sistema Hostess 1.0 &mdash; Grupo RPE
+  </footer>
+
+</body>
+</html>

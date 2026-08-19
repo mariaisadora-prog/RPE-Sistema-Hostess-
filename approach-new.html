@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nova Abordagem — RPE Flow</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #09090b; color: #fafafa; min-height: 100vh; }
+    a { text-decoration: none; }
+    select, input, textarea { background: #18181b; border: 1px solid #27272a; color: #fafafa; border-radius: 8px; padding: 0.6rem 0.9rem; width: 100%; font-size: 0.9rem; font-family: inherit; }
+    select:focus, input:focus, textarea:focus { outline: none; border-color: #10b981; }
+    select option { background: #18181b; }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside style="position:fixed;left:0;top:0;width:220px;height:100vh;background:#18181b;border-right:1px solid #27272a;display:flex;flex-direction:column;z-index:10;">
+    <div style="padding:1.5rem;border-bottom:1px solid #27272a;">
+      <span style="font-size:1.1rem;font-weight:700;color:#fff;">RPE <span style="color:#10b981;">Flow</span></span>
+    </div>
+    <nav style="flex:1;padding:1rem;display:flex;flex-direction:column;gap:4px;">
+      <a href="dashboard.html" style="color:#a1a1aa;border-radius:8px;padding:0.5rem 0.75rem;text-decoration:none;font-size:0.85rem;display:block;">Dashboard</a>
+      <a href="approach-new.html" style="color:#10b981;background:#052e16;border-radius:8px;padding:0.5rem 0.75rem;text-decoration:none;font-size:0.85rem;font-weight:600;display:block;">Nova Abordagem</a>
+      <a href="approaches.html" style="color:#a1a1aa;border-radius:8px;padding:0.5rem 0.75rem;text-decoration:none;font-size:0.85rem;display:block;">Histórico</a>
+      <a href="admin-campaigns.html" style="color:#a1a1aa;border-radius:8px;padding:0.5rem 0.75rem;text-decoration:none;font-size:0.85rem;display:block;">Campanhas</a>
+      <a href="admin-users.html" style="color:#a1a1aa;border-radius:8px;padding:0.5rem 0.75rem;text-decoration:none;font-size:0.85rem;display:block;">Usuários</a>
+      <a href="admin-units.html" style="color:#a1a1aa;border-radius:8px;padding:0.5rem 0.75rem;text-decoration:none;font-size:0.85rem;display:block;">Unidades</a>
+    </nav>
+    <div style="padding:1rem;border-top:1px solid #27272a;">
+      <p style="font-size:0.85rem;color:#fff;font-weight:600;margin-bottom:0.2rem;">Maria Silva</p>
+      <p style="font-size:0.75rem;color:#71717a;margin-bottom:0.75rem;">Administrador</p>
+      <a href="login.html" style="font-size:0.78rem;color:#71717a;text-decoration:none;">Sair →</a>
+    </div>
+  </aside>
+
+  <!-- Content -->
+  <main style="margin-left:220px;padding:2rem 2.5rem;background:#09090b;min-height:100vh;">
+
+    <div style="margin-bottom:1.75rem;">
+      <h1 style="color:#fafafa;font-size:1.5rem;font-weight:700;">Nova Abordagem</h1>
+      <p style="color:#71717a;font-size:0.85rem;margin-top:0.25rem;">Registre uma nova abordagem</p>
+    </div>
+
+    <div style="max-width:560px;">
+      <div style="background:#18181b;border:1px solid #27272a;border-radius:12px;padding:1.5rem;">
+        <form onsubmit="return false;">
+
+          <!-- Campanha -->
+          <div style="margin-bottom:1.25rem;">
+            <label style="color:#a1a1aa;font-size:0.82rem;display:block;margin-bottom:0.4rem;">Campanha</label>
+            <select>
+              <option>Verão 2026 — Shopping Norte</option>
+              <option>Black Friday 2025</option>
+              <option>Natal 2025</option>
+            </select>
+          </div>
+
+          <!-- Unidade -->
+          <div style="margin-bottom:1.25rem;">
+            <label style="color:#a1a1aa;font-size:0.82rem;display:block;margin-bottom:0.4rem;">Unidade</label>
+            <select>
+              <option>Unidade Centro</option>
+              <option>Unidade Norte</option>
+              <option>Unidade Sul</option>
+            </select>
+          </div>
+
+          <!-- Tamanho do grupo -->
+          <div style="margin-bottom:1.25rem;">
+            <label style="color:#a1a1aa;font-size:0.82rem;display:block;margin-bottom:0.4rem;">Tamanho do grupo</label>
+            <input type="number" value="1" min="1" />
+          </div>
+
+          <!-- Perfil do público -->
+          <div style="margin-bottom:1.25rem;">
+            <label style="color:#a1a1aa;font-size:0.82rem;display:block;margin-bottom:0.4rem;">Perfil do público</label>
+            <select>
+              <option>Família</option>
+              <option>Casal</option>
+              <option>Jovens</option>
+              <option>Solo</option>
+            </select>
+          </div>
+
+          <!-- Entrou? toggle -->
+          <div style="margin-bottom:1.25rem;">
+            <label style="color:#a1a1aa;font-size:0.82rem;display:block;margin-bottom:0.75rem;">Entrou?</label>
+            <div style="display:flex;gap:0.75rem;">
+              <button type="button" id="btn-sim" onclick="selectEntrou('sim')"
+                style="flex:1;padding:0.75rem;border-radius:8px;border:2px solid #10b981;background:#052e16;color:#10b981;font-size:0.9rem;font-weight:600;cursor:pointer;font-family:inherit;">
+                ✓ Sim
+              </button>
+              <button type="button" id="btn-nao" onclick="selectEntrou('nao')"
+                style="flex:1;padding:0.75rem;border-radius:8px;border:2px solid #27272a;background:transparent;color:#a1a1aa;font-size:0.9rem;font-weight:600;cursor:pointer;font-family:inherit;">
+                ✗ Não
+              </button>
+            </div>
+          </div>
+
+          <!-- Conditional: Sim -->
+          <div id="section-sim" style="margin-bottom:1.25rem;">
+            <label style="color:#a1a1aa;font-size:0.82rem;display:block;margin-bottom:0.4rem;">Interesse</label>
+            <select>
+              <option>Moda</option>
+              <option>Eletrônicos</option>
+              <option>Casa</option>
+              <option>Gastronomia</option>
+            </select>
+          </div>
+
+          <!-- Conditional: Não -->
+          <div id="section-nao" style="display:none;">
+            <div style="margin-bottom:1.25rem;">
+              <label style="color:#a1a1aa;font-size:0.82rem;display:block;margin-bottom:0.4rem;">Motivo da recusa</label>
+              <select>
+                <option>Preço alto</option>
+                <option>Sem interesse</option>
+                <option>Já conhece</option>
+                <option>Pressa</option>
+              </select>
+            </div>
+            <div style="margin-bottom:1.25rem;">
+              <label style="color:#a1a1aa;font-size:0.82rem;display:block;margin-bottom:0.4rem;">Concorrente</label>
+              <select>
+                <option>Loja X</option>
+                <option>Loja Y</option>
+                <option>Não identificado</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Observação -->
+          <div style="margin-bottom:1.75rem;">
+            <label style="color:#a1a1aa;font-size:0.82rem;display:block;margin-bottom:0.4rem;">Observação</label>
+            <textarea rows="3" placeholder="Observações opcionais..."></textarea>
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" style="width:100%;background:#10b981;color:white;border:none;border-radius:8px;padding:0.75rem 1.25rem;font-weight:600;font-size:0.95rem;cursor:pointer;font-family:inherit;">
+            Registrar abordagem
+          </button>
+
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    var currentEntrou = 'sim';
+
+    function selectEntrou(choice) {
+      currentEntrou = choice;
+      var btnSim = document.getElementById('btn-sim');
+      var btnNao = document.getElementById('btn-nao');
+      var secSim = document.getElementById('section-sim');
+      var secNao = document.getElementById('section-nao');
+
+      if (choice === 'sim') {
+        btnSim.style.borderColor = '#10b981';
+        btnSim.style.background = '#052e16';
+        btnSim.style.color = '#10b981';
+        btnNao.style.borderColor = '#27272a';
+        btnNao.style.background = 'transparent';
+        btnNao.style.color = '#a1a1aa';
+        secSim.style.display = 'block';
+        secNao.style.display = 'none';
+      } else {
+        btnNao.style.borderColor = '#ef4444';
+        btnNao.style.background = '#450a0a';
+        btnNao.style.color = '#ef4444';
+        btnSim.style.borderColor = '#27272a';
+        btnSim.style.background = 'transparent';
+        btnSim.style.color = '#a1a1aa';
+        secSim.style.display = 'none';
+        secNao.style.display = 'block';
+      }
+    }
+  </script>
+
+</body>
+</html>
