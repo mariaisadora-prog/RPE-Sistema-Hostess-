@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unidades — RPE Flow</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #09090b; color: #fafafa; min-height: 100vh; }
+    a { text-decoration: none; }
+  </style>
+  
+  <!-- Importa o Supabase via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Importa nossa configuração -->
+  <script src="supabase.js"></script>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside style="position:fixed;left:0;top:0;width:220px;height:100vh;background:#18181b;border-right:1px solid #27272a;display:flex;flex-direction:column;z-index:10;">
+    <div style="padding:1.5rem;border-bottom:1px solid #27272a;">
+      <span style="font-size:1.1rem;font-weight:700;color:#fff;">RPE <span style="color:#10b981;">Flow</span></span>
+    </div>
+    <nav style="flex:1;padding:1rem;display:flex;flex-direction:column;gap:4px;">
+      <a href="dashboard.html" style="color:#a1a1aa;border-radius:8px;padding:0.5rem 0.75rem;text-decoration:none;font-size:0.85rem;display:block;">Dashboard</a>
+      <a href="approach-new.html" style="color:#a1a1aa;border-radius:8px;padding:0.5rem 0.75rem;text-decoration:none;font-size:0.85rem;display:block;">Nova Abordagem</a>
+      <a href="approaches.html" style="color:#a1a1aa;border-radius:8px;padding:0.5rem 0.75rem;text-decoration:none;font-size:0.85rem;display:block;">Histórico</a>
+      <a href="admin-campaigns.html" style="color:#a1a1aa;border-radius:8px;padding:0.5rem 0.75rem;text-decoration:none;font-size:0.85rem;display:block;">Campanhas</a>
+      <a href="admin-users.html" style="color:#a1a1aa;border-radius:8px;padding:0.5rem 0.75rem;text-decoration:none;font-size:0.85rem;display:block;">Usuários</a>
+      <a href="admin-units.html" style="color:#10b981;background:#052e16;border-radius:8px;padding:0.5rem 0.75rem;text-decoration:none;font-size:0.85rem;font-weight:600;display:block;">Unidades</a>
+    </nav>
+    <div style="padding:1rem;border-top:1px solid #27272a;">
+      <p style="font-size:0.85rem;color:#fff;font-weight:600;margin-bottom:0.2rem;">Administrador</p>
+      <a href="login.html" style="font-size:0.78rem;color:#71717a;text-decoration:none;">Sair →</a>
+    </div>
+  </aside>
+
+  <!-- Content -->
+  <main style="margin-left:220px;padding:2rem 2.5rem;background:#09090b;min-height:100vh;">
+
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.75rem;">
+      <div>
+        <h1 style="color:#fafafa;font-size:1.5rem;font-weight:700;">Unidades</h1>
+        <p style="color:#71717a;font-size:0.85rem;margin-top:0.25rem;">Gerencie as unidades (shoppings/lojas) do sistema</p>
+      </div>
+      <button onclick="adicionarUnidade()" style="background:#10b981;color:white;border:none;border-radius:8px;padding:0.65rem 1.25rem;font-weight:600;font-size:0.88rem;cursor:pointer;font-family:inherit;">
+        + Nova Unidade
+      </button>
+    </div>
+
+    <!-- Table -->
+    <div style="background:#18181b;border:1px solid #27272a;border-radius:12px;overflow:hidden;">
+      <table style="width:100%;border-collapse:collapse;">
+        <thead>
+          <tr>
+            <th style="background:#18181b;color:#71717a;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;padding:0.75rem 1rem;font-weight:600;text-align:left;border-bottom:1px solid #27272a;">ID</th>
+            <th style="background:#18181b;color:#71717a;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;padding:0.75rem 1rem;font-weight:600;text-align:left;border-bottom:1px solid #27272a;">Nome da Unidade</th>
+            <th style="background:#18181b;color:#71717a;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;padding:0.75rem 1rem;font-weight:600;text-align:left;border-bottom:1px solid #27272a;">Data de Criação</th>
+          </tr>
+        </thead>
+        <tbody id="tabela-unidades">
+          <tr>
+            <td colspan="3" style="padding:1.5rem;text-align:center;color:#a1a1aa;font-size:0.9rem;">
+              Carregando unidades do Supabase...
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+
+  <script>
+    async function carregarUnidades() {
+      const tbody = document.getElementById('tabela-unidades');
+      
+      try {
+        const { data, error } = await supabaseClient
+          .from('units')
+          .select('*')
+          .order('name');
+          
+        if (error) throw error;
+        
+        if (!data || data.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="3" style="padding:1.5rem;text-align:center;color:#a1a1aa;font-size:0.9rem;">
+                Nenhuma unidade cadastrada.
+              </td>
+            </tr>`;
+          return;
+        }
+
+        tbody.innerHTML = data.map(unidade => `
+          <tr style="border-bottom:1px solid #27272a;">
+            <td style="padding:0.8rem 1rem;color:#71717a;font-size:0.85rem;font-family:monospace;">${unidade.id.substring(0,8)}...</td>
+            <td style="padding:0.8rem 1rem;color:#fafafa;font-size:0.9rem;font-weight:500;">${unidade.name}</td>
+            <td style="padding:0.8rem 1rem;color:#a1a1aa;font-size:0.85rem;">${new Date(unidade.created_at).toLocaleDateString('pt-BR')}</td>
+          </tr>
+        `).join('');
+
+      } catch (err) {
+        console.error(err);
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="3" style="padding:1.5rem;text-align:center;color:#ef4444;font-size:0.9rem;">
+              Erro ao carregar unidades: ${err.message}
+            </td>
+          </tr>`;
+      }
+    }
+
+    async function adicionarUnidade() {
+      const nome = prompt("Digite o nome da nova unidade:");
+      if (!nome) return;
+
+      try {
+        const { data, error } = await supabaseClient
+          .from('units')
+          .insert([{ name: nome }])
+          .select();
+
+        if (error) {
+          alert("Erro ao adicionar: " + error.message);
+          return;
+        }
+        
+        alert("Unidade adicionada com sucesso!");
+        carregarUnidades(); // recarrega a tabela
+
+      } catch (err) {
+        alert("Erro inesperado: " + err.message);
+      }
+    }
+
+    // Carrega quando abrir a página
+    carregarUnidades();
+  </script>
+</body>
+</html>

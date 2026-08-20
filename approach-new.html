@@ -60,10 +60,8 @@
           <!-- Unidade -->
           <div style="margin-bottom:1.25rem;">
             <label style="color:#a1a1aa;font-size:0.82rem;display:block;margin-bottom:0.4rem;">Unidade</label>
-            <select>
-              <option>Unidade Centro</option>
-              <option>Unidade Norte</option>
-              <option>Unidade Sul</option>
+            <select id="select-unidade">
+              <option>Carregando unidades...</option>
             </select>
           </div>
 
@@ -147,6 +145,8 @@
     </div>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
   <script>
     var currentEntrou = 'sim';
 
@@ -177,6 +177,29 @@
         secNao.style.display = 'block';
       }
     }
+
+    // Carregar unidades do Supabase
+    async function carregarUnidadesNoSelect() {
+      const selectUnidade = document.getElementById('select-unidade');
+      selectUnidade.innerHTML = '<option>Carregando...</option>';
+
+      try {
+        const { data, error } = await supabaseClient.from('units').select('*').order('name');
+        if (error) throw error;
+
+        if (data && data.length > 0) {
+          selectUnidade.innerHTML = data.map(u => `<option value="${u.id}">${u.name}</option>`).join('');
+        } else {
+          selectUnidade.innerHTML = '<option>Nenhuma unidade cadastrada</option>';
+        }
+      } catch (err) {
+        console.error('Erro ao buscar unidades:', err);
+        selectUnidade.innerHTML = '<option>Erro ao carregar</option>';
+      }
+    }
+
+    // Inicializa
+    carregarUnidadesNoSelect();
   </script>
 
 </body>
