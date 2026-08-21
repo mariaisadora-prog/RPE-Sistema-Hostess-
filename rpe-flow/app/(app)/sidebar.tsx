@@ -16,12 +16,14 @@ const roleLabel: Record<string, string> = {
 };
 
 const navItems = [
-  { href: '/dashboard', label: 'Dashboard', roles: ['admin', 'manager', 'hostess'] },
-  { href: '/approach/new', label: 'Nova Abordagem', roles: ['admin', 'manager', 'hostess'] },
-  { href: '/approaches', label: 'Histórico', roles: ['admin', 'manager', 'hostess'] },
+  { href: '/registrar', label: 'Registrar', roles: ['admin', 'manager', 'hostess'] },
+  { href: '/dashboard', label: 'Dashboard', roles: ['admin', 'manager'] },
+  { href: '/approaches', label: 'Registros', roles: ['admin', 'manager', 'hostess'] },
+  { href: '/relatorios/diario', label: 'Relatório Diário', roles: ['admin', 'manager'] },
   { href: '/admin/campaigns', label: 'Campanhas', roles: ['admin', 'manager'] },
   { href: '/admin/users', label: 'Usuários', roles: ['admin'] },
   { href: '/admin/units', label: 'Unidades', roles: ['admin'] },
+  { href: '/admin/importar', label: 'Importar CSV', roles: ['admin'] },
 ];
 
 export default function Sidebar({ profile, logoutAction }: SidebarProps) {
