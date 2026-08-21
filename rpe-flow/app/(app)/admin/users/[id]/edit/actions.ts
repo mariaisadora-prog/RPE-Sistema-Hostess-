@@ -6,7 +6,7 @@ import { z } from 'zod';
 
 const updateUserSchema = z.object({
   name: z.string().min(1, 'Nome é obrigatório').max(200),
-  role: z.enum(['admin', 'manager', 'hostess'], { required_error: 'Selecione o perfil' }),
+  role: z.enum(['admin', 'manager', 'hostess']),
   active: z.boolean().default(true),
   unit_ids: z.array(z.string().uuid()).default([]),
 });
@@ -24,7 +24,7 @@ export async function updateUserAction(userId: string, formData: FormData) {
 
   const parsed = updateUserSchema.safeParse(raw);
   if (!parsed.success) {
-    return { error: parsed.error.errors[0].message };
+    return { error: parsed.error.issues[0].message };
   }
 
   const { unit_ids, ...profileData } = parsed.data;

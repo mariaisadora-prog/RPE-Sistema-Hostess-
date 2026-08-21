@@ -19,7 +19,7 @@ export async function createUserAction(formData: FormData) {
 
   const parsed = userSchema.safeParse(raw);
   if (!parsed.success) {
-    return { error: parsed.error.errors[0].message };
+    return { error: parsed.error.issues[0].message };
   }
 
   // Create auth user via admin API

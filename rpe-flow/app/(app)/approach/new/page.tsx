@@ -1,7 +1,8 @@
 import { requireAuth, getUserUnits } from '@/lib/auth';
 import { createClient } from '@/lib/supabase/server';
-import type { PageProps } from 'next';
 import ApproachForm from './form';
+
+type PageProps = { searchParams: Promise<{ [key: string]: string | string[] | undefined }> };
 
 export default async function NewApproachPage({ searchParams }: PageProps) {
   const profile = await requireAuth();

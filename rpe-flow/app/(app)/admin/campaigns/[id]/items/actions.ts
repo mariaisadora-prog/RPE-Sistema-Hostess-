@@ -17,7 +17,7 @@ export async function addAudienceProfileAction(campaignId: string, formData: For
   });
 
   if (!parsed.success) {
-    return { error: parsed.error.errors[0].message };
+    return { error: parsed.error.issues[0].message };
   }
 
   const { error } = await supabase
@@ -61,7 +61,7 @@ export async function addInterestAction(campaignId: string, formData: FormData) 
   });
 
   if (!parsed.success) {
-    return { error: parsed.error.errors[0].message };
+    return { error: parsed.error.issues[0].message };
   }
 
   const { error } = await supabase
@@ -105,7 +105,7 @@ export async function addLossReasonAction(campaignId: string, formData: FormData
   });
 
   if (!parsed.success) {
-    return { error: parsed.error.errors[0].message };
+    return { error: parsed.error.issues[0].message };
   }
 
   const { error } = await supabase
@@ -149,7 +149,7 @@ export async function addCompetitorAction(campaignId: string, formData: FormData
   });
 
   if (!parsed.success) {
-    return { error: parsed.error.errors[0].message };
+    return { error: parsed.error.issues[0].message };
   }
 
   const { error } = await supabase

@@ -55,12 +55,28 @@ export default async function ApproachesPage({ searchParams }: PageProps) {
             {total} abordagem{total !== 1 ? 's' : ''} encontrada{total !== 1 ? 's' : ''}
           </p>
         </div>
-        <Link
-          href="/approach/new"
-          className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-medium"
-        >
-          Nova Abordagem
-        </Link>
+        <div className="flex gap-2">
+          <Link
+            href={(() => {
+              const params = new URLSearchParams();
+              if (campaignId) params.set('campaignId', campaignId);
+              if (unitId) params.set('unitId', unitId);
+              if (startDate) params.set('startDate', startDate);
+              if (endDate) params.set('endDate', endDate);
+              const qs = params.toString();
+              return `/approaches/export${qs ? `?${qs}` : ''}`;
+            })()}
+            className="border border-zinc-300 text-zinc-700 hover:bg-zinc-50 px-4 py-2 rounded-lg text-sm font-medium"
+          >
+            Exportar CSV
+          </Link>
+          <Link
+            href="/approach/new"
+            className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-medium"
+          >
+            Nova Abordagem
+          </Link>
+        </div>
       </div>
 
       <div className="bg-white rounded-xl shadow-sm border border-zinc-100 overflow-hidden">

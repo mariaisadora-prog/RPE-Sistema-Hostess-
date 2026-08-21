@@ -20,7 +20,7 @@ export default async function AppLayout({
   return (
     <div className="flex min-h-screen">
       <Sidebar profile={profile} logoutAction={logoutAction} />
-      <main className="ml-56 min-h-screen bg-zinc-50 p-8 flex-1">
+      <main className="ml-56 min-h-screen bg-zinc-950 p-8 flex-1">
         {children}
       </main>
     </div>

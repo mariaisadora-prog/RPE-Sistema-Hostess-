@@ -4,6 +4,7 @@
 
 import { createClient } from '@/lib/supabase/server';
 import type { DashboardFilters } from '@/types';
+import type { RawApproachRow } from './highlights';
 
 interface QueryFilters {
   campaignId?: string;
@@ -298,6 +299,128 @@ export async function getInterestPerformance(filters: DashboardFilters) {
       percentage: totalGroups > 0 ? Math.round((d.groups / totalGroups) * 1000) / 10 : 0,
     }))
     .sort((a, b) => b.groups - a.groups);
+}
+
+/**
+ * Get per-unit performance in a single query, grouped in memory.
+ * Respects all filters; when unitId is set, returns only that unit.
+ */
+export async function getUnitPerformance(filters: DashboardFilters) {
+  const supabase = await createClient();
+
+  let query = supabase
+    .from('approaches')
+    .select(`
+      unit_id,
+      group_size,
+      converted,
+      loss_reason_id,
+      units(name),
+      loss_reasons(name)
+    `)
+    .is('deleted_at', null);
+
+  if (filters.campaignId) query = query.eq('campaign_id', filters.campaignId) as typeof query;
+  if (filters.unitId) query = query.eq('unit_id', filters.unitId) as typeof query;
+  if (filters.hostessId) query = query.eq('hostess_id', filters.hostessId) as typeof query;
+  if (filters.startDate) query = query.gte('created_at', filters.startDate) as typeof query;
+  if (filters.endDate) query = query.lte('created_at', filters.endDate) as typeof query;
+
+  const { data, error } = await query;
+  if (error) throw error;
+
+  const unitMap = new Map<string, {
+    unitName: string;
+    approaches: number;
+    converted: number;
+    notConverted: number;
+    lossReasonCounts: Map<string, { name: string; count: number }>;
+  }>();
+
+  for (const row of data || []) {
+    const uid = row.unit_id;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const unitName = (row as any).units?.name || 'Desconhecida';
+
+    if (!unitMap.has(uid)) {
+      unitMap.set(uid, { unitName, approaches: 0, converted: 0, notConverted: 0, lossReasonCounts: new Map() });
+    }
+
+    const u = unitMap.get(uid)!;
+    u.approaches++;
+
+    if (row.converted) {
+      u.converted++;
+    } else {
+      u.notConverted++;
+      if (row.loss_reason_id) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const reasonName = (row as any).loss_reasons?.name || 'Desconhecido';
+        const cur = u.lossReasonCounts.get(row.loss_reason_id) || { name: reasonName, count: 0 };
+        cur.count++;
+        u.lossReasonCounts.set(row.loss_reason_id, cur);
+      }
+    }
+  }
+
+  return Array.from(unitMap.entries()).map(([unitId, u]) => {
+    // Prefer identified reasons over "Não identificado" / "Desconhecido"
+    const identified = Array.from(u.lossReasonCounts.values())
+      .filter((r) => r.name !== 'Não identificado' && r.name !== 'Desconhecido')
+      .sort((a, b) => b.count - a.count);
+
+    const topEntry = identified[0] ?? Array.from(u.lossReasonCounts.values()).sort((a, b) => b.count - a.count)[0] ?? null;
+
+    return {
+      unitId,
+      unitName: u.unitName,
+      approaches: u.approaches,
+      converted: u.converted,
+      notConverted: u.notConverted,
+      topLossReason: topEntry?.name ?? null,
+      topLossReasonCount: topEntry?.count ?? 0,
+    };
+  }).sort((a, b) => b.approaches - a.approaches);
+}
+
+/**
+ * Fetch raw approach rows for in-memory highlights computation.
+ * Returns one row per approach with unit, loss reason, and created_at.
+ */
+export async function getPerformanceData(filters: DashboardFilters): Promise<RawApproachRow[]> {
+  const supabase = await createClient();
+
+  let query = supabase
+    .from('approaches')
+    .select(`
+      unit_id,
+      converted,
+      loss_reason_id,
+      created_at,
+      units(name),
+      loss_reasons(name)
+    `)
+    .is('deleted_at', null);
+
+  if (filters.campaignId) query = query.eq('campaign_id', filters.campaignId) as typeof query;
+  if (filters.unitId) query = query.eq('unit_id', filters.unitId) as typeof query;
+  if (filters.hostessId) query = query.eq('hostess_id', filters.hostessId) as typeof query;
+  if (filters.startDate) query = query.gte('created_at', filters.startDate) as typeof query;
+  if (filters.endDate) query = query.lte('created_at', filters.endDate) as typeof query;
+
+  const { data, error } = await query;
+  if (error) throw error;
+
+  return (data || []).map((row) => ({
+    unit_id: row.unit_id,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    unit_name: (row as any).units?.name || 'Desconhecida',
+    converted: row.converted,
+    loss_reason_id: row.loss_reason_id,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    loss_reason_name: (row as any).loss_reasons?.name || null,
+    created_at: row.created_at,
+  }));
 }
 
 /**

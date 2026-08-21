@@ -213,6 +213,70 @@ export interface InterestPerformance {
   percentage: number;
 }
 
+// --- Unit Performance (legacy) ---
+
+export interface UnitPerformance {
+  unitId: string;
+  unitName: string;
+  approaches: number;
+  converted: number;
+  notConverted: number;
+  topLossReason: string | null;
+  topLossReasonCount: number;
+}
+
+// --- Performance Highlights (operational indicators) ---
+
+export interface TopLossReasonHighlight {
+  name: string;
+  count: number;
+}
+
+export interface WeekdayHighlight {
+  weekday: string;
+  approaches: number;
+}
+
+export interface WeekdayRejectionHighlight {
+  weekday: string;
+  rejections: number;
+  rejectionRate: number;
+}
+
+export interface HourHighlight {
+  hourStart: number;
+  hourEnd: number;
+  approaches: number;
+}
+
+export interface DateConversionHighlight {
+  date: string;
+  dateRaw: string;
+  approaches: number;
+  entered: number;
+  notEntered: number;
+  conversionRate: number;
+}
+
+export interface PerformanceHighlights {
+  approaches: number;
+  entered: number;
+  notEntered: number;
+  topLossReason: TopLossReasonHighlight | null;
+  highestApproachWeekday: WeekdayHighlight | null;
+  highestRejectionWeekday: WeekdayRejectionHighlight | null;
+  highestApproachHour: HourHighlight | null;
+  lowestApproachHour: HourHighlight | null;
+  highestConversionDate: DateConversionHighlight | null;
+  lowestConversionDate: DateConversionHighlight | null;
+}
+
+export interface UnitHighlights {
+  unitId: string;
+  unitName: string;
+  metrics: PerformanceHighlights;
+}
+
 // --- Filter types ---
 
 export interface DashboardFilters {

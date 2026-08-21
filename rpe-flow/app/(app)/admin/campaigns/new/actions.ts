@@ -19,7 +19,7 @@ export async function createCampaignAction(formData: FormData) {
 
   const parsed = campaignSchema.safeParse(raw);
   if (!parsed.success) {
-    return { error: parsed.error.errors[0].message };
+    return { error: parsed.error.issues[0].message };
   }
 
   const { unit_ids, ...campaignData } = parsed.data;

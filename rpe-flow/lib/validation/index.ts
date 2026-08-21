@@ -7,12 +7,12 @@ export const approachSchema = z.object({
   campaign_id: z.string().uuid('Campanha inválida'),
   unit_id: z.string().uuid('Unidade inválida'),
   group_size: z
-    .number({ required_error: 'Informe a quantidade de pessoas' })
+    .number()
     .int('Deve ser um número inteiro')
     .min(1, 'Mínimo 1 pessoa')
     .max(50, 'Máximo 50 pessoas'),
   audience_profile_id: z.string().uuid().nullable().optional(),
-  converted: z.boolean({ required_error: 'Informe se o grupo entrou' }),
+  converted: z.boolean(),
   interest_id: z.string().uuid().nullable().optional(),
   loss_reason_id: z.string().uuid().nullable().optional(),
   competitor_id: z.string().uuid().nullable().optional(),
@@ -57,9 +57,7 @@ export type CampaignInput = z.infer<typeof campaignSchema>;
 export const userSchema = z.object({
   name: z.string().min(1, 'Nome é obrigatório').max(200),
   email: z.string().email('E-mail inválido'),
-  role: z.enum(['admin', 'manager', 'hostess'], {
-    required_error: 'Selecione o perfil',
-  }),
+  role: z.enum(['admin', 'manager', 'hostess']),
   active: z.boolean().default(true),
   unit_ids: z.array(z.string().uuid()).default([]),
   password: z.string().min(6, 'Senha deve ter pelo menos 6 caracteres').optional(),
