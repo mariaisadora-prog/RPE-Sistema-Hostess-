@@ -27,14 +27,25 @@ export default async function DashboardPage({ searchParams }: PageProps) {
 
   const filters = { ...dateRange, campaignId, unitId, hostessId };
 
-  const [perfRows, hourly, hostessPerf] = await Promise.all([
+  const isToday = !startDate && !endDate && preset === 'today';
+  const yesterdayFilters = isToday
+    ? { ...getDateRange('yesterday'), campaignId, unitId, hostessId }
+    : null;
+
+  const [perfRows, hourly, hostessPerf, perfRowsYest] = await Promise.all([
     getPerformanceData(filters).catch(() => [] as RawApproachRow[]),
     getHourlyPerformance(filters).catch(() => [] as HourlyPerformance[]),
     getHostessPerformance(filters).catch(() => [] as HostessPerformance[]),
+    yesterdayFilters
+      ? getPerformanceData(yesterdayFilters).catch(() => [] as RawApproachRow[])
+      : Promise.resolve([] as RawApproachRow[]),
   ]);
 
   // General highlights
   const general = computeHighlights(perfRows, APP_TIMEZONE);
+  const enteredYesterday = isToday && perfRowsYest.length > 0
+    ? computeHighlights(perfRowsYest, APP_TIMEZONE).entered
+    : undefined;
 
   // Per-unit highlights — group rows by unit_id, sorted by approach count desc
   const unitMap = new Map<string, { name: string; rows: typeof perfRows }>();
@@ -70,7 +81,7 @@ export default async function DashboardPage({ searchParams }: PageProps) {
         <h2 className="text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-3">
           Visão Geral
         </h2>
-        <PerformanceOverview data={general} />
+        <PerformanceOverview data={general} enteredYesterday={enteredYesterday} />
       </section>
 
       {/* ── DESEMPENHO POR UNIDADE ── */}

@@ -3,16 +3,36 @@ import type { PerformanceHighlights } from '@/src/types';
 
 interface Props {
   data: PerformanceHighlights;
+  enteredYesterday?: number;
 }
 
-export default function PerformanceOverview({ data }: Props) {
+function vsOntemText(current: number, previous: number | undefined): string | undefined {
+  if (previous === undefined || previous === 0) return undefined;
+  const pct = ((current - previous) / previous) * 100;
+  const arrow = pct >= 0 ? '↑' : '↓';
+  return `${arrow} ${Math.abs(pct).toFixed(1).replace('.', ',')}% vs ontem`;
+}
+
+export default function PerformanceOverview({ data, enteredYesterday }: Props) {
+  const rejectionRate = data.approaches > 0
+    ? (data.notEntered / data.approaches) * 100
+    : 0;
+
   return (
     <div className="space-y-3">
       {/* Row 1: Main KPIs */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         <KpiCard label="Abordagens" value={formatNumber(data.approaches)} />
-        <KpiCard label="Entrou" value={formatNumber(data.entered)} />
-        <KpiCard label="Não entrou" value={formatNumber(data.notEntered)} />
+        <KpiCard
+          label="Conversões"
+          value={formatNumber(data.entered)}
+          secondary={vsOntemText(data.entered, enteredYesterday)}
+        />
+        <KpiCard
+          label="Rejeições"
+          value={formatPercent(rejectionRate)}
+          secondary={`${formatNumber(data.notEntered)} de ${formatNumber(data.approaches)} grupos`}
+        />
         <TopReasonKpi
           reason={data.topLossReason?.name ?? null}
           count={data.topLossReason?.count ?? 0}
@@ -91,11 +111,12 @@ export default function PerformanceOverview({ data }: Props) {
   );
 }
 
-function KpiCard({ label, value }: { label: string; value: string }) {
+function KpiCard({ label, value, secondary }: { label: string; value: string; secondary?: string }) {
   return (
     <div className="bg-zinc-900 rounded-xl border border-zinc-800 p-5">
       <p className="text-sm text-zinc-400">{label}</p>
       <p className="text-3xl font-bold text-zinc-50 mt-1">{value}</p>
+      {secondary && <p className="text-xs text-zinc-500 mt-1">{secondary}</p>}
     </div>
   );
 }
