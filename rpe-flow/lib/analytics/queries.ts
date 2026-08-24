@@ -385,7 +385,7 @@ export async function getUnitPerformance(filters: DashboardFilters) {
 
 /**
  * Fetch raw approach rows for in-memory highlights computation.
- * Returns one row per approach with unit, loss reason, and created_at.
+ * Includes people counts, outcome, and demand fields for full spec compliance.
  */
 export async function getPerformanceData(filters: DashboardFilters): Promise<RawApproachRow[]> {
   const supabase = await createClient();
@@ -394,11 +394,19 @@ export async function getPerformanceData(filters: DashboardFilters): Promise<Raw
     .from('approaches')
     .select(`
       unit_id,
+      group_size,
+      people_entered,
+      people_rejected,
+      outcome,
       converted,
       loss_reason_id,
       created_at,
+      specific_demand,
+      requested_item_id,
+      exists_on_menu,
       units(name),
-      loss_reasons(name)
+      loss_reasons(name),
+      requested_items(name)
     `)
     .is('deleted_at', null);
 
@@ -411,16 +419,26 @@ export async function getPerformanceData(filters: DashboardFilters): Promise<Raw
   const { data, error } = await query;
   if (error) throw error;
 
-  return (data || []).map((row) => ({
-    unit_id: row.unit_id,
+  return (data || []).map((row) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    unit_name: (row as any).units?.name || 'Desconhecida',
-    converted: row.converted,
-    loss_reason_id: row.loss_reason_id,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    loss_reason_name: (row as any).loss_reasons?.name || null,
-    created_at: row.created_at,
-  }));
+    const r = row as any;
+    return {
+      unit_id: row.unit_id,
+      unit_name: r.units?.name || 'Desconhecida',
+      group_size: row.group_size,
+      people_entered: row.people_entered ?? (row.converted ? row.group_size : 0),
+      people_rejected: row.people_rejected ?? (row.converted ? 0 : row.group_size),
+      outcome: row.outcome ?? (row.converted ? 'entered' : 'rejected'),
+      converted: row.converted,
+      loss_reason_id: row.loss_reason_id,
+      loss_reason_name: r.loss_reasons?.name || null,
+      created_at: row.created_at,
+      specific_demand: row.specific_demand ?? null,
+      requested_item_id: row.requested_item_id ?? null,
+      requested_item_name: r.requested_items?.name || null,
+      exists_on_menu: row.exists_on_menu ?? null,
+    };
+  });
 }
 
 /**

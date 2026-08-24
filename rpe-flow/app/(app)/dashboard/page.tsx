@@ -128,9 +128,9 @@ export default async function DashboardPage({ searchParams }: PageProps) {
             <thead>
               <tr className="text-zinc-500 uppercase text-xs border-b border-zinc-800">
                 <th className="text-left py-2 px-3 font-semibold tracking-wide">Hostess</th>
-                <th className="text-right py-2 px-3 font-semibold tracking-wide">Abordagens</th>
-                <th className="text-right py-2 px-3 font-semibold tracking-wide">Entrou</th>
-                <th className="text-right py-2 px-3 font-semibold tracking-wide">Conversão</th>
+                <th className="text-right py-2 px-3 font-semibold tracking-wide">Pessoas</th>
+                <th className="text-right py-2 px-3 font-semibold tracking-wide">Conversões</th>
+                <th className="text-right py-2 px-3 font-semibold tracking-wide">Taxa</th>
               </tr>
             </thead>
             <tbody>
@@ -141,17 +141,14 @@ export default async function DashboardPage({ searchParams }: PageProps) {
                   </td>
                 </tr>
               ) : (
-                (hostessPerf as HostessPerformance[]).map((h, i) => {
-                  const entrou = Math.round(h.approaches * h.group_conversion_rate / 100);
-                  return (
-                    <tr key={i} className="border-b border-zinc-800">
-                      <td className="py-2.5 px-3 text-zinc-50">{h.hostess_name}</td>
-                      <td className="py-2.5 px-3 text-right text-zinc-400">{h.approaches}</td>
-                      <td className="py-2.5 px-3 text-right text-zinc-400">{entrou}</td>
-                      <td className="py-2.5 px-3 text-right text-zinc-400">{formatPercent(h.group_conversion_rate)}</td>
-                    </tr>
-                  );
-                })
+                (hostessPerf as HostessPerformance[]).map((h, i) => (
+                  <tr key={i} className="border-b border-zinc-800">
+                    <td className="py-2.5 px-3 text-zinc-50">{h.hostess_name}</td>
+                    <td className="py-2.5 px-3 text-right text-zinc-400">{formatNumber(h.people_approached)}</td>
+                    <td className="py-2.5 px-3 text-right text-zinc-400">{formatNumber(h.people_converted)}</td>
+                    <td className="py-2.5 px-3 text-right text-zinc-400">{formatPercent(h.people_conversion_rate)}</td>
+                  </tr>
+                ))
               )}
             </tbody>
           </table>
@@ -164,7 +161,7 @@ export default async function DashboardPage({ searchParams }: PageProps) {
             <thead>
               <tr className="text-zinc-500 uppercase text-xs border-b border-zinc-800">
                 <th className="text-left py-2 px-3 font-semibold tracking-wide">Motivo</th>
-                <th className="text-right py-2 px-3 font-semibold tracking-wide">Grupos</th>
+                <th className="text-right py-2 px-3 font-semibold tracking-wide">Pessoas</th>
                 <th className="text-right py-2 px-3 font-semibold tracking-wide">%</th>
               </tr>
             </thead>
@@ -179,7 +176,7 @@ export default async function DashboardPage({ searchParams }: PageProps) {
                 lossBreakdown.map((r, i) => (
                   <tr key={i} className="border-b border-zinc-800">
                     <td className="py-2.5 px-3 text-zinc-50">{r.loss_reason_name}</td>
-                    <td className="py-2.5 px-3 text-right text-zinc-400">{r.groups}</td>
+                    <td className="py-2.5 px-3 text-right text-zinc-400">{formatNumber(r.people)}</td>
                     <td className="py-2.5 px-3 text-right text-zinc-400">
                       {formatPercent(r.percentage)}
                     </td>

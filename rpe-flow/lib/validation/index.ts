@@ -12,7 +12,13 @@ export const approachSchema = z.object({
     .min(1, 'Mínimo 1 pessoa')
     .max(50, 'Máximo 50 pessoas'),
   audience_profile_id: z.string().uuid().nullable().optional(),
-  converted: z.boolean(),
+  outcome: z.enum(['entered', 'rejected', 'partial'], { error: 'Resultado inválido' }),
+  people_entered: z.number().int().min(0),
+  people_rejected: z.number().int().min(0),
+  specific_demand: z.boolean().optional().default(false),
+  requested_item_id: z.string().uuid().nullable().optional(),
+  requested_item_text: z.string().max(200).nullable().optional(),
+  exists_on_menu: z.boolean().nullable().optional(),
   interest_id: z.string().uuid().nullable().optional(),
   loss_reason_id: z.string().uuid().nullable().optional(),
   competitor_id: z.string().uuid().nullable().optional(),
@@ -22,14 +28,26 @@ export const approachSchema = z.object({
     .optional()
     .default(''),
 }).refine(
+  (data) => data.people_entered + data.people_rejected === data.group_size,
+  { message: 'Pessoas que entraram + rejeitadas deve igual ao tamanho do grupo', path: ['people_entered'] }
+).refine(
   (data) => {
-    // If converted, interest can be provided but loss_reason/competitor should not
-    if (data.converted) {
-      return !data.loss_reason_id;
-    }
+    if (data.outcome === 'entered') return data.people_entered === data.group_size;
     return true;
   },
-  { message: 'Motivo de perda não se aplica quando convertido', path: ['loss_reason_id'] }
+  { message: 'Se entrou, todas as pessoas devem ter entrado', path: ['people_entered'] }
+).refine(
+  (data) => {
+    if (data.outcome === 'rejected') return data.people_rejected === data.group_size;
+    return true;
+  },
+  { message: 'Se não entrou, nenhuma pessoa deve ter entrado', path: ['people_rejected'] }
+).refine(
+  (data) => {
+    if (data.outcome === 'partial') return data.people_entered > 0 && data.people_rejected > 0;
+    return true;
+  },
+  { message: 'Parcial requer ao menos uma entrada e uma rejeição', path: ['people_entered'] }
 );
 
 export type ApproachInput = z.infer<typeof approachSchema>;

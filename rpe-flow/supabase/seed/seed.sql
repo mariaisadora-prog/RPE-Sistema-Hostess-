@@ -67,7 +67,25 @@ INSERT INTO loss_reasons (id, campaign_id, name, sort_order) VALUES
   ('e1000001-0001-4000-8000-000000000011', 'b1b2c3d4-0001-4000-8000-000000000001', 'Não identificado', 11);
 
 -- ============================================================
--- 6. COMPETITORS (Mercearia Campos for Oktoberfest 2026)
+-- 6. REQUESTED ITEMS (global — not campaign scoped)
+-- ============================================================
+INSERT INTO requested_items (name) VALUES
+  ('Fondue'),
+  ('Pizza'),
+  ('Hambúrguer'),
+  ('Massa'),
+  ('Carne'),
+  ('Comida alemã'),
+  ('Chope'),
+  ('Cerveja artesanal'),
+  ('Drinks'),
+  ('Sobremesa'),
+  ('Prato executivo'),
+  ('Vegetariano'),
+  ('Outro');
+
+-- ============================================================
+-- 7. COMPETITORS (Mercearia Campos for Oktoberfest 2026)
 -- ============================================================
 INSERT INTO competitors (id, campaign_id, unit_id, name, sort_order) VALUES
   ('f1000001-0001-4000-8000-000000000001', 'b1b2c3d4-0001-4000-8000-000000000001', 'a1b2c3d4-0001-4000-8000-000000000001', 'Baden Baden', 1),

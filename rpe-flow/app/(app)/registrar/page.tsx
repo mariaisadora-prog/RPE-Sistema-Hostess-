@@ -25,7 +25,6 @@ export default async function RegistrarPage() {
     .eq('active', true)
     .order('name');
 
-  // Auto-select unit when there is only one
   const autoUnit =
     (units ?? []).length === 1 ? (units ?? [])[0] : null;
 
@@ -45,7 +44,6 @@ export default async function RegistrarPage() {
     .eq('active', true)
     .order('name');
 
-  // Auto-select campaign when there is only one
   const autoCampaign =
     (campaigns ?? []).length === 1 ? (campaigns ?? [])[0] : null;
 
@@ -88,6 +86,13 @@ export default async function RegistrarPage() {
     competitors = compRes.data ?? [];
   }
 
+  // Global requested items (not campaign-scoped)
+  const { data: requestedItems } = await supabase
+    .from('requested_items')
+    .select('id, name')
+    .eq('active', true)
+    .order('name');
+
   return (
     <RegistrarForm
       hostessName={profile.name}
@@ -99,6 +104,7 @@ export default async function RegistrarPage() {
       lossReasonsInit={lossReasons}
       interestsInit={interests}
       competitorsInit={competitors}
+      requestedItems={requestedItems ?? []}
     />
   );
 }

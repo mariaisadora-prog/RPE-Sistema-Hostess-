@@ -13,6 +13,8 @@ export type AuditAction =
   | 'CAMPAIGN_UPDATE'
   | 'USER_UPDATE';
 
+export type OutcomeType = 'entered' | 'rejected' | 'partial';
+
 // --- Database Row Types ---
 
 export interface Unit {
@@ -96,6 +98,13 @@ export interface Competitor {
   created_at: string;
 }
 
+export interface RequestedItem {
+  id: string;
+  name: string;
+  active: boolean;
+  created_at: string;
+}
+
 export interface Approach {
   id: string;
   campaign_id: string;
@@ -103,8 +112,15 @@ export interface Approach {
   hostess_id: string;
   group_size: number;
   audience_profile_id: string | null;
+  outcome: OutcomeType;
+  people_entered: number;
+  people_rejected: number;
   converted: boolean;
   interest_id: string | null;
+  specific_demand: boolean | null;
+  requested_item_id: string | null;
+  requested_item_text: string | null;
+  exists_on_menu: boolean | null;
   loss_reason_id: string | null;
   competitor_id: string | null;
   notes: string | null;
@@ -134,6 +150,7 @@ export interface ApproachWithRelations extends Approach {
   hostess?: Profile;
   audience_profile?: AudienceProfile;
   interest?: CampaignInterest;
+  requested_item?: RequestedItem;
   loss_reason?: LossReason;
   competitor?: Competitor;
 }
@@ -213,7 +230,7 @@ export interface InterestPerformance {
   percentage: number;
 }
 
-// --- Unit Performance (legacy) ---
+// --- Unit Performance ---
 
 export interface UnitPerformance {
   unitId: string;
@@ -243,6 +260,27 @@ export interface WeekdayRejectionHighlight {
   rejectionRate: number;
 }
 
+export interface WeekdayPeriodHighlight {
+  weekday: string;
+  period: 'Almoço' | 'Jantar';
+  approaches: number;
+  entered: number;
+  conversionRate: number;
+}
+
+export interface WeekdayPeriodRejectionHighlight {
+  weekday: string;
+  period: 'Almoço' | 'Jantar';
+  approaches: number;
+  rejected: number;
+  rejectionRate: number;
+}
+
+export interface MissingItemHighlight {
+  name: string;
+  people: number;
+}
+
 export interface HourHighlight {
   hourStart: number;
   hourEnd: number;
@@ -263,6 +301,9 @@ export interface PerformanceHighlights {
   entered: number;
   notEntered: number;
   topLossReason: TopLossReasonHighlight | null;
+  bestConversionPeriod: WeekdayPeriodHighlight | null;
+  highestRejectionPeriod: WeekdayPeriodRejectionHighlight | null;
+  topMissingItem: MissingItemHighlight | null;
   highestApproachWeekday: WeekdayHighlight | null;
   highestRejectionWeekday: WeekdayRejectionHighlight | null;
   highestApproachHour: HourHighlight | null;
@@ -303,10 +344,15 @@ export interface ApproachFormData {
   unit_id: string;
   group_size: number;
   audience_profile_id: string | null;
-  converted: boolean;
+  outcome: OutcomeType;
+  people_entered: number;
+  people_rejected: number;
+  specific_demand: boolean;
+  requested_item_id: string | null;
+  requested_item_text: string | null;
+  exists_on_menu: boolean | null;
   interest_id: string | null;
   loss_reason_id: string | null;
-  identified_competitor: boolean | null;
   competitor_id: string | null;
   notes: string;
 }
