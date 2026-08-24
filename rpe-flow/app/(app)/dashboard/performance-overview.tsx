@@ -141,7 +141,12 @@ function TopReasonKpi({
           </p>
         </>
       ) : (
-        <p className="text-3xl font-bold text-zinc-600 mt-1">—</p>
+        <>
+          <p className="text-3xl font-bold text-zinc-600 mt-1">—</p>
+          <p className="text-xs text-zinc-500 mt-1">
+            {total === 0 ? 'Nenhuma rejeição' : 'Motivo não identificado'}
+          </p>
+        </>
       )}
     </div>
   );
