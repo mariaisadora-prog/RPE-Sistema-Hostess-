@@ -4,17 +4,42 @@ import type { Profile, UserRole } from '@/types';
 
 export async function getCurrentUser(): Promise<Profile | null> {
   const supabase = await createClient();
-  
+
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return null;
 
-  const { data: profile } = await supabase
+  // Try canonical schema (post-migration-006: has auth_user_id column)
+  const { data: byAuthId, error: e1 } = await supabase
     .from('profiles')
     .select('*')
     .eq('auth_user_id', user.id)
-    .single();
+    .maybeSingle();
 
-  return profile;
+  if (!e1 && byAuthId) {
+    return byAuthId as Profile;
+  }
+
+  // Fallback: pre-migration schema where profiles.id = auth.users.id
+  const { data: byId } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('id', user.id)
+    .maybeSingle();
+
+  if (!byId) return null;
+
+  // Normalize to Profile shape
+  const raw = byId as Record<string, unknown>;
+  return {
+    id: raw.id as string,
+    auth_user_id: user.id,
+    name: (raw.name ?? raw.full_name ?? user.email ?? 'Usuário') as string,
+    email: (raw.email ?? user.email ?? '') as string,
+    role: (raw.role ?? 'hostess') as UserRole,
+    active: (raw.active ?? true) as boolean,
+    created_at: raw.created_at as string,
+    updated_at: (raw.updated_at ?? raw.created_at) as string,
+  } satisfies Profile;
 }
 
 export async function requireAuth(): Promise<Profile> {
